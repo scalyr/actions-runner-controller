@@ -1,9 +1,14 @@
+name: build-runner
 on:
   push:
     branches:
     - master
     paths:
     - 'runner/**'
+
+env:
+  REGISTRY_SERVER: docker.pkg.github.com
+  NAME: docker.pkg.github.com/${{ github.repository }}/actions-runner
 
 jobs:
   build:
@@ -13,10 +18,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Build container image
-      run: make docker-build
+      run: make docker-build NAME=${{ env.NAME }}
       working-directory: runner
     - name: Docker Login
-      run: docker login -u summerwind -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      run: docker login -u ${{ github.actor }} -p ${{ github.token }} ${{ env.REGISTRY_SERVER }}
     - name: Push container image
-      run: make docker-push
+      run: make docker-push NAME=${{ env.NAME }}
       working-directory: runner
