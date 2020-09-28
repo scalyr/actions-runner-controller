@@ -3,12 +3,8 @@ on:
   push:
     branches:
     - master
-    - ecr-cred-helper
     paths:
     - 'runner/**'
-  pull_request:
-    branches:
-      - master
 
 env:
   REGISTRY_SERVER: docker.pkg.github.com
