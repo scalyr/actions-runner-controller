@@ -1,3 +1,4 @@
+name: build-runner
 on:
   push:
     branches:
@@ -5,6 +6,9 @@ on:
     - ecr-cred-helper
     paths:
     - 'runner/**'
+  pull_request:
+    branches:
+      - master
 
 env:
   REGISTRY_SERVER: docker.pkg.github.com
