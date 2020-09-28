@@ -12,8 +12,7 @@ on:
 
 env:
   REGISTRY_SERVER: docker.pkg.github.com
-  IMAGE: ${{ github.repository }}/actions-runner
-  NAME: ${{ env.REGISTRY_SERVER }}/${{ env.IMAGE }}
+  NAME: docker.pkg.github.com/${{ github.repository }}/actions-runner
 
 jobs:
   build:
