@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 ARG RUNNER_VERSION
 ARG DOCKER_VERSION
+ARG ECR_CRED_HELPER_VERSION
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -y \
@@ -53,6 +54,12 @@ RUN mkdir -p /runner \
   && rm runner.tar.gz \
   && ./bin/installdependencies.sh \
   && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q https://amazon-ecr-credential-helper-releases.s3.us-east-2.amazonaws.com/${ECR_CRED_HELPER_VERSION}/linux-amd64/docker-credential-ecr-login -O /usr/bin/docker-credential-ecr-login \
+  && chmod 755 /usr/bin/docker-credential-ecr-login \
+  && mkdir ~runner/.docker \
+  && echo '{ "credsStore": "ecr-login" }' > ~runner/.docker/config.json \
+  && chown -R runner:runner ~runner/.docker
 
 COPY entrypoint.sh /runner
 
