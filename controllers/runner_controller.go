@@ -208,7 +208,7 @@ func (r *RunnerReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 			log.Error(err, "Failed to check if runner is busy")
 			return ctrl.Result{}, nil
 		}
-		
+
 		if !runnerBusy && (!reflect.DeepEqual(pod.Spec.Containers[0].Env, newPod.Spec.Containers[0].Env) || pod.Spec.Containers[0].Image != newPod.Spec.Containers[0].Image) {
 			restart = true
 		}
